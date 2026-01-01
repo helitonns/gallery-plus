@@ -40,11 +40,12 @@ Omit<React.ComponentProps<"input">, "size"> {
   form: any,
   allowedExtensions: string[],
   maxFileSizeInMB: number,
+  replaceBy: React.ReactNode,
   error?: React.ReactNode
 }
 
 
-export default function InputSingleFile({form, size, error, allowedExtensions, maxFileSizeInMB, ...props}: InputSingleFileProps){
+export default function InputSingleFile({form, size, error, allowedExtensions, maxFileSizeInMB, replaceBy, ...props}: InputSingleFileProps){
   const formValues = useWatch({control: form.control});
   const name = props.name || "";
   const formFile: File = React.useMemo(()=> formValues[name]?.[0], [formValues, name]);
@@ -68,7 +69,7 @@ export default function InputSingleFile({form, size, error, allowedExtensions, m
   return (
     <div>
       {!formFile || !isValidFile() ?
-        <>
+        (<>
           <div className="w-full relative group cursor-pointer">
             <input type="file" className="absolute top-0 right-0 w-full h-full opacity-0 cursor-pointer" {...props}/>
 
@@ -87,8 +88,9 @@ export default function InputSingleFile({form, size, error, allowedExtensions, m
             {formFile && !isValidSize() && <Text variant="label-small" className="text-accent-red">O tamanho do arquivo ultrapassa o máximo permitido</Text>}
             {error && <Text variant="label-small" className="text-accent-red">{error}</Text>}
           </div>
-        </>:
-        <>
+        </>):
+        (<>
+          {replaceBy}
           <div className="flex gap-3 items-center border border-solid border-border-primary mt-5 p-3 rounded">
             <Icon svg={FileImageIcon} className="fill-white w-6 h-6"/>
             <div className="flex flex-col">
@@ -109,7 +111,7 @@ export default function InputSingleFile({form, size, error, allowedExtensions, m
               </div>
             </div>
           </div>
-        </>
+        </>)
       }
     </div>
   );
