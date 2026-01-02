@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import Badge from "../../../components/badge";
-import { buttonVariants } from "../../../components/button";
+import { buttonTextVariants, buttonVariants } from "../../../components/button";
 import ImagePreview from "../../../components/image-preview";
 import Skeleton from "../../../components/skeleton";
 import Text from "../../../components/text";
@@ -19,10 +19,10 @@ export default function PhotoWidgte({photo, loading}: PhotoWidgetProps){
           <ImagePreview 
             src={`/images/${photo.imageId}`}
             title={photo.title}
-            className="w-[13.5625rem] h-[13.5625rem] rounded-lg"
+            className="w-[10.875rem] h-[10.875rem] rounded-lg"
           />
         ):(
-          <Skeleton className="w-[13.5625rem] h-[13.5625rem] rounded-lg"/>
+          <Skeleton className="w-[10.875rem] h-[10.875rem] rounded-lg"/>
       )}
 
       <div className="flex flex-col gap-2">
@@ -35,12 +35,12 @@ export default function PhotoWidgte({photo, loading}: PhotoWidgetProps){
         <div className="flex gap-1 min-h-[1.375rem]">
           {!loading ? (
             <>
-              {photo.albums.slice(0, 2).map( album => (
+              {photo.albums.slice(0, 1).map( album => (
                 <Badge className="truncate" size="xs" key={album.id}>
                   {album.title}
                 </Badge>
               ))}
-              {photo.albums.length > 2 && <Badge size="xs">+{photo.albums.length-2}</Badge>}
+              {photo.albums.length > 1 && <Badge size="xs">+{photo.albums.length-1}</Badge>}
             </>
           ):(
             Array.from({length: 2}).map((_, index)=> 
@@ -52,7 +52,7 @@ export default function PhotoWidgte({photo, loading}: PhotoWidgetProps){
 
       {!loading ? (
         <Link to={`/fotos/${photo.id}`} className={buttonVariants({variant: "secondary", className: "px-2 py-2"})}>
-          <Text className={buttonVariants({variant: "secondary", size: "sm"})}>Detalhes da imagem</Text>
+          <Text className={buttonTextVariants({variant: "secondary", size: "sm"})}>Detalhes da imagem</Text>
         </Link>
       ): (
         <Skeleton className="w-full h-10"/>
