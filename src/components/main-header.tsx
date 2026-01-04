@@ -1,6 +1,7 @@
 import cx from "classnames";
 import { Link } from "react-router";
 import Logo from "../assets/images/galeria-plus-full-logo.svg?react";
+import AlbumNewDiolog from "../context/album/components/album-new-dialog";
 import PhotoNewDialog from "../context/photos/components/photo-new-dialog";
 import Button from "./button";
 import Container from "./container";
@@ -10,6 +11,7 @@ import PhotosSearch from "./photos-search";
 interface MainHeaderProps extends React.ComponentProps<typeof Container>{}
 
 export default function MainHeader({className, ...props}: MainHeaderProps){
+
   return(
     <Container
       as="header"
@@ -26,7 +28,7 @@ export default function MainHeader({className, ...props}: MainHeaderProps){
 
       <div className="flex items-center gap-3">
         <PhotoNewDialog trigger={<Button>Nova foto</Button>}/>
-        <Button variant="secondary">Criar álbum</Button>
+        <AlbumNewDiolog trigger={<Button variant="secondary">Criar álbum</Button>}/>
       </div>
     </Container>
   );
