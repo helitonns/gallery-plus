@@ -7,24 +7,17 @@ import Text from "../components/text";
 import AlbumsListSelectable from "../context/album/components/albums-list-selectable";
 import useAlbums from "../context/album/hooks/use-albums";
 import PhotosNavigator from "../context/photos/components/photos-navigator";
+import usePhoto from "../context/photos/hooks/use-photo";
 import type { Photo } from "../context/photos/models/photo";
 
 export default function PagePhotoDatails(){
   const { id } = useParams();
+  const {photo, isLoadingPhoto} = usePhoto(id);
   const {albums, isLoadingAlbums} = useAlbums();
 
-  //apenas para fazer o mock
-  const isLoadingPhoto = false;
-  const photo = {
-    id: "123",
-    title: "Olá mundo!",
-    imageId: "portrait-tower.png",
-    albums: [
-      {id: "123", title: "album 1"},
-      {id: "124", title: "album 2"},
-      {id: "125", title: "album 3"},
-    ]
-  } as Photo;
+  if(!isLoadingPhoto && !photo){
+    return <div>Foto não encontrada</div>
+  }
 
   return(
     <Container>
@@ -42,7 +35,7 @@ export default function PagePhotoDatails(){
       <div className="grid grid-cols-[21rem_1fr] gap-24">
         <div className="space-y-3">
           {!isLoadingPhoto ? (
-            <ImagePreview src={`/images/${photo?.imageId}`} title={photo?.title} className="h-[21rem] rounded"/>
+            <ImagePreview src={`${import.meta.env.VITE_IMAGES_URL}/${photo?.imageId}`} title={photo?.title} className="h-[21rem] rounded"/>
            ):(
             <Skeleton className="h-[21rem]"/>
            )
@@ -59,7 +52,7 @@ export default function PagePhotoDatails(){
           <Text as="h3" variant="heading-medium" className="mb-6">Álbuns</Text>
           <AlbumsListSelectable 
             albums={albums} 
-            photo={photo}
+            photo={photo as Photo}
             loading={isLoadingAlbums} 
           />
         </div>
