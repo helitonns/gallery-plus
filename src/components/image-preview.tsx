@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 export const imagePreviewVariants = tv({
-  base: "rouded-lg overflow-hidden"
+  base: "rounded-lg overflow-hidden"
 });
 
 export const imagePreviewImageVariants = tv({
@@ -15,7 +15,7 @@ interface ImageFilePreviewProps extends React.ComponentProps<"img"> {
 export default function ImagePreview({className, imageClassName, ...props}: ImageFilePreviewProps){
   return(
     <div className={imagePreviewVariants({className})}>
-      <img className={imagePreviewImageVariants(imageClassName)} {...props}/>
+      <img className={imagePreviewImageVariants({className: imageClassName})} {...props}/>
     </div>
   );
 }
