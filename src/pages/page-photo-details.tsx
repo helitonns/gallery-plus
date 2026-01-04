@@ -5,11 +5,13 @@ import ImagePreview from "../components/image-preview";
 import Skeleton from "../components/skeleton";
 import Text from "../components/text";
 import AlbumsListSelectable from "../context/album/components/albums-list-selectable";
+import useAlbums from "../context/album/hooks/use-albums";
 import PhotosNavigator from "../context/photos/components/photos-navigator";
 import type { Photo } from "../context/photos/models/photo";
 
 export default function PagePhotoDatails(){
   const { id } = useParams();
+  const {albums, isLoadingAlbums} = useAlbums();
 
   //apenas para fazer o mock
   const isLoadingPhoto = false;
@@ -56,13 +58,9 @@ export default function PagePhotoDatails(){
         <div className="py-3">
           <Text as="h3" variant="heading-medium" className="mb-6">Álbuns</Text>
           <AlbumsListSelectable 
-            albums={[
-              {id: "123", title: "Férias"},
-              {id: "124", title: "Sítio"},
-              {id: "125", title: "Aniversário"},
-            ]} 
+            albums={albums} 
             photo={photo}
-            loading={isLoadingPhoto} 
+            loading={isLoadingAlbums} 
           />
         </div>
       </div>
