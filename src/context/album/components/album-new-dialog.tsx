@@ -27,7 +27,13 @@ export default function AlbumNewDiolog({trigger} : AlbumNewDiologProps){
   }, [modalOpen, form]);
 
   function handleTogglePhoto(selected: boolean, photoId: string){
-    console.log(selected, photoId);
+    const photosIds = form.getValues("photosIds") || [];
+
+    if(selected){
+      form.setValue("photosIds", [...photosIds, photoId]);
+    } else {
+      form.setValue("photosIds", photosIds.filter((id)=> id !== photoId));
+    }
   }
 
   function handleSubmit(payload: AlbumNewFormSchema){
