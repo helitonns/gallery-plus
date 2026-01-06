@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { api } from '../../../helpers/api';
+import usePhotoAlbums from '../../photos/hooks/use-photo-albums';
 import usePhotos from '../../photos/hooks/use-photos';
 import type { Album } from '../model/album';
 import type { AlbumNewFormSchema } from '../schemas';
@@ -9,6 +10,7 @@ import type { AlbumNewFormSchema } from '../schemas';
 export default function useAlbum(){
   const queryClient = useQueryClient();
   const {photos} = usePhotos();
+  const {managePhotoOnAlbum} = usePhotoAlbums();
 
   async function createAlbumSchema(payload:AlbumNewFormSchema) {
     try {
@@ -22,9 +24,7 @@ export default function useAlbum(){
           const photoAlbumsIdsSet = new Set(photoAlbumsIds);
           photoAlbumsIdsSet.add(album.id);
 
-          return api.put(`/photos/${photoId}/albums`, {
-            albumsIds: [...photoAlbumsIdsSet]
-          });
+          return managePhotoOnAlbum(photoId, [...photoAlbumsIdsSet]);
         }));
       }
 

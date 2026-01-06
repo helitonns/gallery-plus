@@ -32,11 +32,11 @@ export default function ALbumsFilter({albums, loading, className, ...props}: Alb
 
           {
             albums.map(album => (
-              <div className="flex gap-3">
+              <div className="flex gap-3 overflow-x-hidden">
                 <Button key={album.id} 
                   variant={filters.albumId === album.id ? "primary" : "ghost"}  
                   size="sm" 
-                  className="cursor-pointer"
+                  className="cursor-pointer truncate"
                   onClick={()=> filters.setAlbumId(album.id)}
                 >
                   {album.title}
