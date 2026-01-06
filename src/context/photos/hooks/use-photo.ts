@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { fetcher } from "../../../helpers/api";
 import type { Photo } from "../models/photo";
@@ -12,6 +13,7 @@ interface PhotoDetailsResponse extends Photo {
 }
 
 export default function usePhoto(id?: string){
+  const navigate = useNavigate();
   const {data, isLoading } = useQuery<PhotoDetailsResponse>({
     queryKey: ["photos", id],
     queryFn: ()=> fetcher(`/photos/${id}`),
@@ -46,11 +48,25 @@ export default function usePhoto(id?: string){
     }
   }
 
+  async function deletePhoto(photoId:string) {
+    try {
+      await api.delete(`/photos/${photoId}`);
+
+      toast.success("Foto excluída com sucesso");
+      queryClient.invalidateQueries({ queryKey: ["photos"] });
+      navigate("/");
+    } catch (error) {
+      toast.error("Erro ao excluir foto");
+      throw error;
+    }
+  }
+
   return {
     photo: data,
     nextPhotoId: data?.nextPhotoId,
     previousPhotoId: data?.previousPhotoId,
     isLoadingPhoto: isLoading,
-    createPhoto
+    createPhoto,
+    deletePhoto
   }
 }
